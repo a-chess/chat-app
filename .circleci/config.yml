@@ -13,27 +13,41 @@ jobs:
     steps:
       - checkout
 
+      # Restore bundle cache
       - restore_cache:
           keys:
             - app-{{ checksum "Gemfile.lock" }}
             - app-
-      - run: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
 
-      - run: 
-          name: bundle install
-          command: bundle install --jobs=4 --retry=3 --path vendor/bundle
+      # Bundle install
+      - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
 
-      - run: 
-          name: yarn install
-          command: yarn install
+      # Yarn install  
+      - run: yarn
 
+      # Store bundle cache
       - save_cache:
           key: app-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
           paths:
             - vendor/bundle
             - node_modules
-        
-      - run: bundle exec rake db:create db:migrate
+
+      # rubocop
+      - run: bundle exec rubocop
+
+      # DB wait
+      - run: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
+
+      # Setup the database
+      - run: bundle exec rake db:create
+      - run: bundle exec rake db:migrate
+
+      # Precompile assets
+      - run: bundle exec bin/webpack
+
+      # Run the rspec
+      - run: bundle exec rspec --color --fail-fast
+
       - deploy:
           name: Capistranoデプロイ
           command: |
