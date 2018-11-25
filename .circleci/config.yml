@@ -1,0 +1,46 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/a-chess/chat-app
+    docker:
+      - image: circleci/ruby:2.5.1-node-browsers
+        environment:
+          RAILS_ENV: test
+      - image: mysql:5.7
+        environment:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - app-{{ checksum "Gemfile.lock" }}
+            - app-
+      - run: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
+
+      - run: 
+          name: bundle install
+          command: bundle install --jobs=4 --retry=3 --path vendor/bundle
+
+      - run: 
+          name: yarn install
+          command: yarn install
+
+      - save_cache:
+          key: app-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+          paths:
+            - vendor/bundle
+            - node_modules
+        
+      - run: bundle exec rake db:create db:migrate
+      - deploy:
+          name: Capistranoデプロイ
+          command: |
+            if [ "${CIRCLE_BRANCH}" != "master" ]; then
+              exit 0
+            fi
+            
+            bundle exec cap production deploy
+
+

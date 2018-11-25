@@ -1,0 +1,22 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  username: <%= ENV['CHAT_APP_DB_USER'] || 'root' %>
+  password: <%= ENV['CHAT_APP_DB_PSWD'] %> 
+  host: <%= ENV['CHAT_APP_DB_HOST'] || 'localhost' %>
+  port: <%= ENV['CHAT_APP_DB_PORT'] || 3306 %>
+  pool: <%= ENV['RAILS_MAX_THREADS'] || 5 %>
+  timeout: 5000
+
+development:
+  <<: *default
+  database: chat_app_dev
+
+test:
+  <<: *default
+  database: chat_app_test
+  host: 127.0.0.1
+
+production:
+  <<: *default
+  database: chat_app_prd
