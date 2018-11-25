@@ -3,7 +3,7 @@ lock '3.11.0'
 
 set :application, 'trial-circle'
 set :repo_url, 'git@github.com:a-chess/chat-app.git'
-set :branch, 'master'
+set :branch, 'hotfix/webpacker-gem'
 set :deploy_to, '/home/hyuga/chat-app'
 set :log_level, :debug
 set :pty, true
