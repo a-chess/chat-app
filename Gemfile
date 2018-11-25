@@ -12,7 +12,8 @@ gem 'sass-rails', '~> 5.0'
 gem 'sprockets'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
-gem 'webpacker', '>= 4.0.x'
+# gem 'webpacker', '>= 4.0.x'
+gem 'webpacker', '~> 3.5'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
