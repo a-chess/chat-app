@@ -17,7 +17,7 @@ after 'deploy:publishing' , 'deploy:restart'
 
 # deploy:assets:backup_manifestはなんかエラーになるんで実行させない。
 Rake::Task['deploy:assets:backup_manifest'].clear_actions
-Rake::Task['deploy:assets:precompile'].clear_actions
+# Rake::Task['deploy:assets:precompile'].clear_actions
 
 namespace :deploy do
   desc 'Restart application'
