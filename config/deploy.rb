@@ -7,11 +7,12 @@ set :branch, 'master'
 set :deploy_to, '/home/hyuga/chat-app'
 set :log_level, :debug
 set :pty, true
-set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets bundle public/system public/assets}
+set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/assets}
 set :linked_files, %w{config/master.key}
 set :default_env, { path: "/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH" }
 set :keep_releases, 5
 set :unicorn_pid, "#{shared_path}/tmp/pids/unicorn.pid"
+set :bundle_path, -> { shared_path.join('vendor/bundle') }
 
 after 'deploy:publishing' , 'deploy:restart'
 
