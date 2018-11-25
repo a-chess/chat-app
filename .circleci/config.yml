@@ -13,6 +13,9 @@ jobs:
     steps:
       - checkout
 
+      # DB wait
+      - run: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
+
       # Restore bundle cache
       - restore_cache:
           keys:
@@ -34,9 +37,6 @@ jobs:
 
       # rubocop
       - run: bundle exec rubocop
-
-      # DB wait
-      - run: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
 
       # Setup the database
       - run: bundle exec rake db:create
