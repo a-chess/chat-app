@@ -48,8 +48,7 @@ jobs:
       - deploy:
           name: Capistranoデプロイ
           command: |
-            # if [ "${CIRCLE_BRANCH}" != "master" ]; then
-            if [ "${CIRCLE_BRANCH}" != "hotfix/webpacker-gem" ]; then
+            if [ "${CIRCLE_BRANCH}" != "master" ]; then
               exit 0
             fi
             
