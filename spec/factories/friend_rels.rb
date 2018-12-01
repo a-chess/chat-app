@@ -11,6 +11,5 @@
 
 FactoryBot.define do
   factory :friend_rel do
-    
   end
 end

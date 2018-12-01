@@ -21,6 +21,5 @@
 
 FactoryBot.define do
   factory :category_rel do
-    
   end
 end
