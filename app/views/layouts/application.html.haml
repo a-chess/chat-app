@@ -1,0 +1,13 @@
+!!!
+%html
+  %head
+    %title TrialCircleci
+    = csrf_meta_tags
+    = csp_meta_tag
+
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+  %body
+    - if user_signed_in?
+      = link_to "ログアウト", destroy_user_session_path, method: :delete
+    = yield
