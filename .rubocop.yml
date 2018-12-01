@@ -1,7 +1,7 @@
 AllCops:
   Exclude:
     - "vendor/**/*" # rubocop config/default.yml
-    - "db/*"
+    - "db/**/*"
     - 'config/**/*'
     - 'bin/*'
     - 'node_modules/**/*'
