@@ -5,6 +5,7 @@
 #  id                     :bigint(8)        not null, primary key
 #  email                  :string(255)      default(""), not null
 #  encrypted_password     :string(255)      default(""), not null
+#  name                   :string(255)
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string(255)
@@ -22,4 +23,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+  has_many :articles, dependent: :destroy
+  has_many :friend_rels, dependent: :delete_all
+  has_many :friends, through: :friend_rels
 end
